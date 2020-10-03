@@ -1,12 +1,16 @@
 package com.example.grademy.entities;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_PROFILE")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserProfile {
 
     @Id
@@ -23,7 +27,6 @@ public class UserProfile {
     @Column(name = "AVATAR", length = 1001)
     private String avatar;
 
-    @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @OneToOne(mappedBy = "userProfile")
     private User user;
 }

@@ -1,10 +1,19 @@
 package com.example.grademy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "COURSES")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Course {
 
     @Id
@@ -33,5 +42,39 @@ public class Course {
             joinColumns = @JoinColumn(name = "FK_COURSE"),
             inverseJoinColumns = @JoinColumn(name = "FK_TEACHER")
     )
+    @JsonIgnore
     private Set<Teacher> teachers;
+
+    @ManyToMany
+    Set<User> users;
+
+    @Transient
+    private String strOfTeachers;
+
+    public String getStrOfUsers() {
+        return getUsers().stream()
+                .map((User user) -> {
+                    return String.format("%s %s", user.getFirstName(), user.getLastName());
+                })
+                .collect(Collectors.joining(", "));
+    }
+
+    public void setStrOfUsers(String strOfUsers) {
+        this.strOfUsers = strOfUsers;
+    }
+
+    @Transient
+    private String strOfUsers;
+
+    public String getStrOfTeachers() {
+        return getTeachers().stream()
+                .map((Teacher teacher) -> {
+                    return String.format("%s %s", teacher.getFirstName(), teacher.getLastName());
+                })
+                .collect(Collectors.joining(", "));
+    }
+
+    public void setStrOfTeachers(String setOfTeachers) {
+        strOfTeachers = setOfTeachers;
+    }
 }

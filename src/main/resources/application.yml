@@ -1,0 +1,12 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/grademy
+    username: admin123
+    password: admin@123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
